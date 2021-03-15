@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  margin: 20px;
+  width: 220px;
+  height: 300px;
+  border: 1px solid black;
+}
+
+.container ul li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  list-style: none;
+}
