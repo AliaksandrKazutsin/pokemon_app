@@ -1,12 +1,12 @@
-import React from 'react'; 
-import {TestHook} from './Hooks';
+import React from 'react';
+import { TestApi } from './test-api';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <TestHook />
+      <TestApi />
     </div>
   );
-}
+};
 
 export default App;
