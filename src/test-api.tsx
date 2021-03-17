@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { InnerContant } from './inner-contant';
+import { upScroll } from './scroll';
 import { Spinner } from './spinner/spinner';
 import './test-api.scss';
+
 // export interface ArrayData {
 //     id: number,
 //     name: string,
@@ -18,7 +20,7 @@ export const TestApi: React.FunctionComponent = () => {
         fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)
             .then(response => response.json())
             .then(data => {
-                let results = data.results.map(res => {
+                const results = data.results.map(res => {
                     return fetch(res.url).then(response => response.json());
                 });
                 return Promise.all(results);
@@ -34,7 +36,7 @@ export const TestApi: React.FunctionComponent = () => {
         setTimeout(() => {
             setLoader(false);
             fetchData();
-        }, 3000);
+        }, 4000);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -48,6 +50,15 @@ export const TestApi: React.FunctionComponent = () => {
             {!loader &&
                 <div className='wrapper-items' onClick={ getPokeInfo }>
                     <InnerContant getData={ getData } />
+                    <div className="wrapper-items__wrapper-button">
+                        <button
+                            type="button"
+                            onClick={ upScroll }
+                            className="wrapper-items__scroll-button"
+                        >
+                            <i className="fa fa-chevron-up" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div> }
         </>
     );
