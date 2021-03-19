@@ -1,5 +1,6 @@
 $displayFlex: flex;
 $justifyContentCenter: center;
+$colorBlack: #000;
 
 .loader {
   display: $displayFlex;
@@ -31,7 +32,7 @@ $justifyContentCenter: center;
   align-items: center;
   flex-direction: column;
 
-  background-color: white;
+  background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 
@@ -45,18 +46,28 @@ $justifyContentCenter: center;
   cursor: pointer;
   list-style: none;
 
+
   &:hover {
     transform: scale(1.2);
     transition: all 0.3s;
   }
 }
 
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+}
+
 .wrapper-items__wrapper-ability {
   display: $displayFlex;
+  color: $colorBlack
 }
 
 .wrapper-items__item-name {
   font-weight: bold;
+  color: $colorBlack;
 }
 
 .wrapper-items__wrapper-ability .wrapper-items__item-ability {

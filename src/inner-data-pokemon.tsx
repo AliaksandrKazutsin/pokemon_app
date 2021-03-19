@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-interface ItenId {
-	itemId: string;
+interface ItemId {
+	data: Object;
 }
 
-export const InnerDataPokemon = (props: ItenId) => {
+export const InnerDataPokemon = memo((props: ItemId) => {
 
-	const { itemId } = props;
+	const { data } = props;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [backToHome, setBackToHome] = useState<any>(null);
 	const history = useHistory();
@@ -20,11 +20,9 @@ export const InnerDataPokemon = (props: ItenId) => {
 
 	return (
 		<>
-			<div style={ { width: '500px', height: '500px' } }>
-				HELLO
-				{ itemId }
-			</div>
+			<p>{ `Pokemon id = ${data.id}` }</p>
+			<p>{ data.name }</p>
 			<button onClick={ leaveCurrentPage }>Back</button>
 		</>
 	);
-};
+});

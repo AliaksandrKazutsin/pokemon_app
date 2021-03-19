@@ -1,9 +1,10 @@
 
 export interface DataList {
-	id: number,
-	name: string,
-	image: string,
+	id: number;
+	name: string;
+	image: string;
 	ability: string[];
+	description: string[];
 }
 
 export interface DataListElements {
@@ -19,6 +20,7 @@ export interface TypesList {
 }
 
 export interface TypeName {
+	url: string;
 	name: string;
 }
 

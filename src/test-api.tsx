@@ -52,19 +52,15 @@ export const TestApi: React.FunctionComponent = () => {
         setTimeout(() => {
             setLoader(false);
             fetchData();
-        }, 4000);
+        }, 1000);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const getPokeInfo = () => {
-        console.log('Info');
-    };
 
     return (
         <>
             { loader && <Spinner /> }
             {!loader &&
-                <div className='wrapper-items' onClick={ getPokeInfo }>
+                <div className='wrapper-items'>
                     <InnerContent getData={ getData } />
                     <div className="wrapper-items__wrapper-button">
                         <button

@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DataList } from './interfaces/pokemon';
 
 interface DataListProps {
@@ -46,10 +46,13 @@ export const InnerContent = memo((props: DataListProps) => {
 		<>
 			{ notification && <p className="wrapper-items__notification-rebuild"><i className="fa fa-check-circle-o" aria-hidden="true"></i>Design was rebuilded</p> }
 
-			<ul className={ rebuildItems ? 'wrapper-items__items-rebuild' : 'wrapper-items__items' }>
+			<ul className={ rebuildItems ? 'wrapper-items__items-rebuild' : 'wrapper-items__items' } >
 				{ getData.map((el => {
-					return <li key={ el.id } className='wrapper-items__list-items' >
-						<NavLink to={ `/poke/${el.id}` }>
+					return <li key={ el.id } className='wrapper-items__list-items'>
+						<Link to={ {
+							pathname: `/poke/${el.id}`,
+							state: el
+						} } >
 							<img src={ el.image } alt="poke" className="wrapper-items__item-img" />
 							<div>
 								<p className="wrapper-items__item-name">{ el.name }</p>
@@ -57,7 +60,8 @@ export const InnerContent = memo((props: DataListProps) => {
 									{ el.ability.map((ability, i) => <p key={ i } className="wrapper-items__item-ability">{ ability }</p>) }
 								</div>
 							</div>
-						</NavLink></li>;
+						</Link>
+					</li>;
 				})) }
 			</ul>
 			<button onClick={ rebuildDisplayItems } className="wrapper-items__button-rebuild" type="button" disabled={ buttonLoader }>
