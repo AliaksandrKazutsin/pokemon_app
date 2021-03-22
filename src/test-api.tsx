@@ -1,52 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import { InnerContent } from './inner-content';
-import { DataList, DataListElements } from './interfaces/pokemon';
+import { Pokemons } from './interfaces/pokemon';
 import { upScroll } from './scroll';
 import { Spinner } from './spinner/spinner';
 import './test-api.scss';
 
 export const TestApi: React.FunctionComponent = () => {
-    const [getData, setGetData] = useState<Array<DataList>>([]);
+    const [getData, setGetData] = useState<Pokemons>([]);
     const [loader, setLoader] = useState<boolean>(true);
 
-    const fetchData = () => {
-        fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)
-            .then(response => response.json())
-            .then(data => {
-                const results = data.results.map(res => {
-                    return fetch(res.url)
-                        .then(response => response.json());
-                });
+    const fetchData = async () => {
+        try {
+            const getAllList = await Promise.all(
+                await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const results = data.results.map(async res => {
+                            return (await fetch(res.url)).json();
+                        });
 
-                return Promise.all<unknown[] | any>(results);
+                        return results;
+                    })
+            );
 
-            }).then((pokeData) => {
-                console.log(pokeData);
-                const allResults = pokeData.map((el: DataListElements) => {
+            return console.log(getAllList);
+        } catch (error) {
+            console.error("ERROR", error);
+        }
+    };
 
-                    const ability: string[] = el?.types?.map(ability => ability?.type?.name.toUpperCase());
+    /*const fetchData = async () => {
+        const response = (await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)).json();
 
-                    const dataElements = {
-                        id: el?.id || null,
-                        image: el?.sprites.front_shiny || null,
-                        name: el?.name.toUpperCase() || null,
-                        ability: ability || null
-                    } as DataList;
+        response.then(data => {
+            const results = data.results.map(async res => {
+                return (await fetch(res.url)).json();
+            });
 
-                    return dataElements || null;
-                });
+            return Promise.all<unknown[] | any>(results);
 
-                return Promise.all<DataList>(allResults);
+        }).then((pokeData) => {
+            console.log(pokeData);
+            const allResults = pokeData.map((el: DataListElements) => {
 
-            }).then(pokemon => {
-                console.log(pokemon);
-                setGetData(() => pokemon);
-            })
+                const ability: string[] = el?.types?.map(ability => ability?.type?.name.toUpperCase());
+
+                const dataElements = {
+                    id: el?.id || null,
+                    image: el?.sprites.front_shiny || null,
+                    name: el?.name.toUpperCase() || null,
+                    ability: ability || null
+                } as Pokemon;
+
+                return dataElements || null;
+            });
+
+            return Promise.all<Pokemon>(allResults);
+
+        }).then(list => {
+            console.log(list);
+            setGetData(() => list);
+        })
 
             .catch((err) => {
                 console.error('ERROR', err);
             });
-    };
+    };*/
 
     useEffect(() => {
         setTimeout(() => {

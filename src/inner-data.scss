@@ -1,0 +1,45 @@
+.wrapper-inner-data {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.wrapper-inner-data__poke-name {
+  font-size: 23px;
+  font-weight: bold;
+  color: coral;
+}
+
+.wrapper-inner-data__image {
+  width: 200px;
+  padding: 20px 0;
+}
+
+.wrapper-inner-data__button {
+  width: 140px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+  letter-spacing: 1px;
+  border: 2px solid greenyellow;
+  outline: none;
+  border-radius: 10px;
+  transition: all 0.1s;
+
+  &:hover {
+    font-size: 10px;
+    font-weight: bold;
+    background-color: #fff;
+    color: #000;
+    transform: scale(1.1);
+    transition: all 0.1s;
+  }
+}
+
+.wrapper-inner-data__button .fa {
+  padding-right: 5px;
+}

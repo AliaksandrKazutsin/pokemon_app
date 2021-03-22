@@ -1,28 +1,33 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
+import './inner-data.scss';
 
-interface ItemId {
+const buttonBackNames = {
+	buttonBack: "Go Back",
+	pokeName: "I'm"
+};
+interface DataElements {
 	data: Object;
 }
 
-export const InnerDataPokemon = memo((props: ItemId) => {
+export const InnerDataPokemon = memo(({ data }: DataElements) => {
 
-	const { data } = props;
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [backToHome, setBackToHome] = useState<any>(null);
 	const history = useHistory();
 
 	const leaveCurrentPage = () => {
-		setBackToHome(() => {
-			return history.push('/');
-		});
+		return history.push('/');
 	};
 
 	return (
-		<>
-			<p>{ `Pokemon id = ${data.id}` }</p>
-			<p>{ data.name }</p>
-			<button onClick={ leaveCurrentPage }>Back</button>
-		</>
+		<div className="wrapper-inner-data">
+			<p className="wrapper-inner-data__poke-name">{ buttonBackNames.pokeName } { data.name }</p>
+			<img className="wrapper-inner-data__image" src={ data.image } alt="poke" />
+			<button
+				className="wrapper-inner-data__button"
+				onClick={ leaveCurrentPage }>
+				<i className="fa fa-arrow-left" aria-hidden="true"></i>
+				{ buttonBackNames.buttonBack }
+			</button>
+		</div>
 	);
 });

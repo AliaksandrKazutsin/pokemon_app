@@ -6,7 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "allowJs": false,
+    "noImplicitAny": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,10 +18,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true, 
+    "noEmit": true,
     "jsx": "react-jsx"
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "src/interfaces/pokemon.tsx"
   ]
 }
