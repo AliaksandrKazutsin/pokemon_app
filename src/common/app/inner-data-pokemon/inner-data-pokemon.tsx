@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
-import './inner-data.scss';
+import './inner-data-pokemon.scss';
 
 const buttonBackNames = {
 	buttonBack: "Go Back",

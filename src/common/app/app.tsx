@@ -1,9 +1,7 @@
 import React, { memo } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { InnerDataPokemon } from './inner-data-pokemon';
-import { TestApi } from './test-api';
-
-
+import { InnerDataPokemon } from './inner-data-pokemon/inner-data-pokemon';
+import { TestApi } from './test-api/test-api';
 
 const App: React.FC = memo(() => {
 
@@ -25,4 +23,4 @@ const App: React.FC = memo(() => {
   );
 });
 
-export default App;
+export default App; 

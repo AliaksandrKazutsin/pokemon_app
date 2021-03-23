@@ -1,7 +1,7 @@
 import isDarkColor from 'is-dark-color';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { COLORS, Pokemon } from './interfaces/pokemon';
+import { COLORS, Pokemon } from '../../../interfaces/pokemon';
 
 const buttonLoaderNames = {
 	rebuildDesign: "Rebuild design",

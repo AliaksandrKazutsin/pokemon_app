@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { InnerContent } from './inner-content';
-import { Pokemons } from './interfaces/pokemon';
-import { upScroll } from './scroll';
-import { Spinner } from './spinner/spinner';
+import { DataListElements, Pokemons } from '../../../interfaces/pokemon';
+import { InnerContent } from '../inner-content/inner-content';
+import { upScroll } from '../scroll';
+import { Spinner } from '../spinner/spinner';
 import './test-api.scss';
 
 export const TestApi: React.FunctionComponent = () => {
@@ -11,19 +11,29 @@ export const TestApi: React.FunctionComponent = () => {
 
     const fetchData = async () => {
         try {
-            const getAllList = await Promise.all(
-                await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const results = data.results.map(async res => {
-                            return (await fetch(res.url)).json();
-                        });
-
-                        return results;
-                    })
+            const getListOfPokemons = await (await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=3`)).json();
+            const getPoke = await Promise.all<unknown[] | any>(
+                getListOfPokemons.results.map(async res => {
+                    return await (await fetch(res.url)).json();
+                })
             );
 
-            return console.log(getAllList);
+            const getResult = getPoke.map((el: DataListElements) => {
+
+                const ability: string[] = el?.types?.map(ability => ability?.type?.name.toUpperCase());
+
+                const dataElements = {
+                    id: el?.id || null,
+                    image: el?.sprites.front_shiny || null,
+                    name: el?.name.toUpperCase() || null,
+                    ability: ability || null
+                };
+
+                return dataElements || null;
+            });
+
+            return setGetData(() => getResult);
+
         } catch (error) {
             console.error("ERROR", error);
         }
