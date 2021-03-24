@@ -2,10 +2,12 @@ import isDarkColor from 'is-dark-color';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { COLORS, Pokemon } from '../../../interfaces/pokemon';
+import './inner-content.scss';
 
-const buttonLoaderNames = {
+const buttonNames = {
 	rebuildDesign: "Rebuild design",
-	rebuilding: "Rebuilding..."
+	rebuilding: "Rebuilding...",
+	showMore: "Show more"
 };
 interface DataListProps {
 	getData: Pokemon[];
@@ -16,6 +18,8 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 	const [rebuildItems, setRebuildItems] = useState<boolean>(false);
 	const [buttonLoader, setButtonLoader] = useState<boolean>(false);
 	const [notification, setNotification] = useState<boolean>(false);
+	const [showMore, setShowMore] = useState<boolean>(false);
+	const [addCount, setAddCount] = useState<number>(5);
 
 	const rebuildDisplayItems = useCallback(() => {
 		setButtonLoader(true);
@@ -77,12 +81,30 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 		}
 	}, []);*/
 
+	const showMorePoke = () => {
+		setAddCount(() => addCount + 5);
+		setShowMore(true);
+		window.scrollBy(0, 10000);
+	};
+
+	useEffect(() => {
+		if (addCount > 20) {
+			console.log("We have not pokemons more..");
+		}
+	}, [addCount]);
+
+	const countSizeData = (item: Pokemon[]) => {
+		if (item) {
+			return addCount;
+		}
+	};
+	const numberOfItems = showMore ? countSizeData(getData) : 5;
+
 	return (
 		<>
 			{ notification && <p className="wrapper-items__notification-rebuild"><i className="fa fa-check-circle-o" aria-hidden="true"></i>Design was rebuilded</p> }
-
 			<ul className={ rebuildItems ? 'wrapper-items__items-rebuild' : 'wrapper-items__items' } >
-				{ getData.map((el => {
+				{ getData.slice(0, numberOfItems).map((el => {
 					return <li key={ el.id } className='wrapper-items__list-items'>
 						<Link to={ {
 							pathname: `/poke/${el.id}`,
@@ -93,7 +115,7 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 								<p className="wrapper-items__item-name">{ el.name }</p>
 								<div className="wrapper-items__wrapper-ability">
 									{
-										el.ability.map((ability, i) =>
+										el?.ability.map((ability, i) =>
 											<p key={ i }
 												style={ {
 													backgroundColor: `${changeColorAbility(ability)}`,
@@ -117,9 +139,17 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 					/>
 				}
 				{ !buttonLoader ?
-					<span>{ buttonLoaderNames.rebuildDesign }</span> :
-					<span>{ buttonLoaderNames.rebuilding }</span> }
+					<span>{ buttonNames.rebuildDesign }</span> :
+					<span>{ buttonNames.rebuilding }</span> }
 			</button>
+			<div className="wrapper-items__button" >
+				<button
+					onClick={ showMorePoke }
+					className="wrapper-items__button-show-more">
+					{ buttonNames.showMore }
+					<i className="fa fa-caret-down" aria-hidden="true" />
+				</button>
+			</div>
 		</>
 	);
 });

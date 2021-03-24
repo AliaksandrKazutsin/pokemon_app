@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { DataListElements, Pokemons } from '../../../interfaces/pokemon';
+import { DataListElements, Pokemons, TypeName } from '../../../interfaces/pokemon';
 import { InnerContent } from '../inner-content/inner-content';
 import { upScroll } from '../scroll';
 import { Spinner } from '../spinner/spinner';
@@ -11,28 +12,31 @@ export const TestApi: React.FunctionComponent = () => {
 
     const fetchData = async () => {
         try {
-            const getListOfPokemons = await (await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=3`)).json();
+            const getListOfPokemons = (await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=3'));
             const getPoke = await Promise.all<unknown[] | any>(
-                getListOfPokemons.results.map(async res => {
-                    return await (await fetch(res.url)).json();
+                getListOfPokemons.data.results.map(async (res: TypeName) => {
+                    return (await axios.get(res.url));
                 })
             );
 
-            const getResult = getPoke.map((el: DataListElements) => {
+            if (getPoke) {
+                console.log(getPoke);
+                const getResult = getPoke.map((el: DataListElements) => {
 
-                const ability: string[] = el?.types?.map(ability => ability?.type?.name.toUpperCase());
+                    const ability: string[] = el?.data?.types.map(ability => ability?.type?.name.toUpperCase());
 
-                const dataElements = {
-                    id: el?.id || null,
-                    image: el?.sprites.front_shiny || null,
-                    name: el?.name.toUpperCase() || null,
-                    ability: ability || null
-                };
+                    const dataElements = {
+                        id: el?.data?.id || null,
+                        image: el?.data?.sprites?.front_shiny || null,
+                        name: el?.data?.name.toUpperCase() || null,
+                        ability: ability || null
+                    };
 
-                return dataElements || null;
-            });
-
-            return setGetData(() => getResult);
+                    return dataElements || null;
+                });
+                console.log(getResult);
+                return setGetData(() => getResult);
+            }
 
         } catch (error) {
             console.error("ERROR", error);
@@ -103,4 +107,4 @@ export const TestApi: React.FunctionComponent = () => {
                 </div> }
         </>
     );
-};
+}; 

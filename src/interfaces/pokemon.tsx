@@ -9,11 +9,14 @@ export type Pokemons = Pokemon[];
 export interface DataListElements {
 	id: number;
 	name: string;
+	data: DataItem[];
+}
+
+export interface DataItem {
 	sprites: FrontShiny;
 	ability: string[];
 	types: TypesList[];
 }
-
 export interface TypesList {
 	type: TypeName;
 }
