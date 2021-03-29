@@ -1,16 +1,22 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { DataListElements, Pokemons, TypeName } from '../../../interfaces/pokemon';
+import React, { useEffect } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { Pokemons } from '../../../interfaces/pokemon';
+import { fetchData, showLoader } from '../../../redux/actions';
+import { RootState } from '../../../redux/app-reducer';
 import { InnerContent } from '../inner-content/inner-content';
 import { upScroll } from '../scroll';
 import { Spinner } from '../spinner/spinner';
 import './test-api.scss';
 
-export const TestApi: React.FunctionComponent = () => {
-    const [getData, setGetData] = useState<Pokemons>([]);
-    const [loader, setLoader] = useState<boolean>(true);
 
-    const fetchData = async () => {
+export const TestApi: React.FunctionComponent = () => {
+    //const [getData, setGetData] = useState<Pokemons>([]);
+    //const [loader, setLoader] = useState<boolean>(true);
+    const getData: Pokemons = useSelector((state: RootStateOrAny) => state.getData);
+    const loader = useSelector((state: RootState) => state.loading);
+    const dispatch = useDispatch();
+
+    /*const fetchData = async () => {
         try {
             const getListOfPokemons = (await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=3'));
             const getPoke = await Promise.all<unknown[] | any>(
@@ -41,7 +47,7 @@ export const TestApi: React.FunctionComponent = () => {
         } catch (error) {
             console.error("ERROR", error);
         }
-    };
+    };*/
 
     /*const fetchData = async () => {
         const response = (await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0`)).json();
@@ -83,11 +89,11 @@ export const TestApi: React.FunctionComponent = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            setLoader(false);
-            fetchData();
+            dispatch(showLoader());
+            dispatch(fetchData());
         }, 1000);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
+    }, [dispatch]);
 
     return (
         <>
