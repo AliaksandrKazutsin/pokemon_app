@@ -1,4 +1,7 @@
-export const loadState = () => {
+export function loadState<T = object>(): T | undefined {
+	if (!localStorage) {
+		return undefined;
+	}
 	try {
 		const serializedState = localStorage.getItem('state');
 		if (serializedState === null) {
@@ -6,15 +9,19 @@ export const loadState = () => {
 		}
 		return JSON.parse(serializedState);
 	} catch (err) {
-		return undefined;
+		console.error('ERROR', err);
 	}
 };
 
-export const saveState = (state) => {
+export function saveState<T = object>(state: T): boolean {
+	if (!localStorage) {
+		return false;
+	}
 	try {
 		const serializedState = JSON.stringify(state);
 		localStorage.setItem('state', serializedState);
+		return true;
 	} catch (err) {
-
+		console.error('ERROR', err);
 	}
 };

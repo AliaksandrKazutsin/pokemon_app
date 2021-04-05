@@ -1,0 +1,1 @@
+export const getPokemonPathById = `/poke/el.id`;
