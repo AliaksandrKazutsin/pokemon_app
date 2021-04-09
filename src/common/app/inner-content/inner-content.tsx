@@ -76,10 +76,10 @@ export const InnerContent = memo(() => {
 								<p className="wrapper-items__item-name">{ el.name }</p>
 								<div className="wrapper-items__wrapper-ability">
 									{
-										el?.ability.map((ability, i) => {
+										el?.ability.map((ability, id) => {
 											const changeColor = abilityColor(ability);
 											return (
-												<p key={ i }
+												<p key={ id }
 													style={ {
 														backgroundColor: `${changeColor}`,
 														color: `${isDarkColor(changeColor) ?
