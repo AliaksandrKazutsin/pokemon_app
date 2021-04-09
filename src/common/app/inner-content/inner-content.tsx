@@ -101,12 +101,7 @@ export const InnerContent = memo(() => {
 				})) }
 			</ul>
 			<button onClick={ rebuildDisplayItems } className="wrapper-items__button-rebuild" type="button" disabled={ loaderButton }>
-				{ loaderButton &&
-					<i
-						className="fa fa-refresh fa-spin"
-						style={ { marginRight: "10px", fontSize: '15px' } }
-					/>
-				}
+				{ loaderButton && <i className="fa fa-refresh fa-spin" /> }
 				{ !loaderButton ?
 					<span>{ INNER_CONTENT_BUTTONS_GROUP.rebuildDesign }</span> :
 					<span>{ INNER_CONTENT_BUTTONS_GROUP.rebuilding }</span> }
