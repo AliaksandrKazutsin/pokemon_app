@@ -6,7 +6,7 @@ import { COLORS, Pokemon, Pokemons } from '../../../interfaces/pokemon';
 import { addPaginatedItems, rebuildPokemonDesign, showButtonLoader, showNotification } from '../../../redux/actions';
 import { getButtonLoader, getNotification, getPaginatedItems, getPokemonData, getRebuildDesign } from '../../../redux/selectors';
 import { INNER_CONTENT_ABILITY_COLOR, INNER_CONTENT_BUTTONS_GROUP } from '../constants';
-import { getPokemonPathById } from '../routes';
+import { POKEMON_PATH_BY_ID } from '../routes';
 import './inner-content.scss';
 
 
@@ -68,7 +68,7 @@ export const InnerContent = memo(() => {
 				{ getData.slice(0, numberOfItems).map((el => {
 					return <li key={ el.id } className='wrapper-items__list-items'>
 						<Link to={ {
-							pathname: `${getPokemonPathById}`,
+							pathname: `${POKEMON_PATH_BY_ID}`,
 							state: el
 						} } >
 							<img src={ el.image } alt="poke" className="wrapper-items__item-img" />
