@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { COLORS, Pokemon, Pokemons } from '../../../interfaces/pokemon';
 import { addPaginatedItems, rebuildPokemonDesign, showButtonLoader, showNotification } from '../../../redux/actions';
 import { getButtonLoader, getNotification, getPaginatedItems, getPokemonData, getRebuildDesign } from '../../../redux/selectors';
-import { innerContent_abilityColor, innerContent_buttonsGroup } from '../constants';
+import { INNER_CONTENT_ABILITY_COLOR, INNER_CONTENT_BUTTONS_GROUP } from '../constants';
 import { getPokemonPathById } from '../routes';
 import './inner-content.scss';
 
@@ -83,8 +83,8 @@ export const InnerContent = memo(() => {
 													style={ {
 														backgroundColor: `${changeColor}`,
 														color: `${isDarkColor(changeColor) ?
-															innerContent_abilityColor.whiteColor :
-															innerContent_abilityColor.blackColor}`
+															INNER_CONTENT_ABILITY_COLOR.whiteColor :
+															INNER_CONTENT_ABILITY_COLOR.blackColor}`
 													} }
 													className="wrapper-items__item-ability">
 													{ ability }
@@ -108,14 +108,14 @@ export const InnerContent = memo(() => {
 					/>
 				}
 				{ !loaderButton ?
-					<span>{ innerContent_buttonsGroup.rebuildDesign }</span> :
-					<span>{ innerContent_buttonsGroup.rebuilding }</span> }
+					<span>{ INNER_CONTENT_BUTTONS_GROUP.rebuildDesign }</span> :
+					<span>{ INNER_CONTENT_BUTTONS_GROUP.rebuilding }</span> }
 			</button>
 			<div className="wrapper-items__button" >
 				<button
 					onClick={ showMorePoke }
 					className="wrapper-items__button-show-more">
-					{ innerContent_buttonsGroup.showMore }
+					{ INNER_CONTENT_BUTTONS_GROUP.showMore }
 					<i className="fa fa-caret-down" aria-hidden="true" />
 				</button>
 			</div>

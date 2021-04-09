@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { innerDataPokemon_buttonBackToHomePage } from '../constants';
+import { INNER_CONTENT_BUTTON_BACK_TO_HOME_PAGE } from '../constants';
 import './inner-data-pokemon.scss';
 
 interface DataElements {
@@ -17,13 +17,13 @@ export const InnerDataPokemon = memo(({ data }: DataElements) => {
 
 	return (
 		<div className="wrapper-inner-data">
-			<p className="wrapper-inner-data__poke-name">{ innerDataPokemon_buttonBackToHomePage.pokeName } { data.name }</p>
+			<p className="wrapper-inner-data__poke-name">{ INNER_CONTENT_BUTTON_BACK_TO_HOME_PAGE.pokeName } { data.name }</p>
 			<img className="wrapper-inner-data__image" src={ data.image } alt="poke" />
 			<button
 				className="wrapper-inner-data__button"
 				onClick={ leaveCurrentPage }>
 				<i className="fa fa-arrow-left" aria-hidden="true"></i>
-				{ innerDataPokemon_buttonBackToHomePage.buttonBack }
+				{ INNER_CONTENT_BUTTON_BACK_TO_HOME_PAGE.buttonBack }
 			</button>
 		</div>
 	);
