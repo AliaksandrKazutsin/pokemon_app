@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { InnerDataPokemon } from './inner-data-pokemon/inner-data-pokemon';
 import { TestApi } from './test-api/test-api';
 
-const getPagePath = {
-  defaultPath: '/',
-  takeEveryPokemon: '/poke/:id'
+const PAGE_PATH = {
+  DEFAULT: '/',
+  TAKE_EVERY_POKEMON: '/poke/:id'
 } as const;
 
 const App: React.FC = memo(() => {
@@ -14,8 +14,8 @@ const App: React.FC = memo(() => {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path={ `${getPagePath.defaultPath}` } component={ TestApi } exact />
-          <Route path={ `${getPagePath.takeEveryPokemon}` }
+          <Route path={ `${PAGE_PATH.DEFAULT}` } component={ TestApi } exact />
+          <Route path={ `${PAGE_PATH.TAKE_EVERY_POKEMON}` }
             render={ ({ location }) => {
               return <InnerDataPokemon
                 data={ location.state }
