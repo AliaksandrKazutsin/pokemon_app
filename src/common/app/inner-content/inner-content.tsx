@@ -40,7 +40,7 @@ export const InnerContent = memo(() => {
 	}, [dispatch, loaderButton]);
 
 	//replace for switch/case
-	const changeColorAbility = useCallback((color: string) => ({
+	const abilityColor = useCallback((color: string) => ({
 		"GRASS": COLORS.GREEN,
 		"POISON": COLORS.PURPLE,
 		"FIRE": COLORS.YELLOW,
@@ -77,7 +77,7 @@ export const InnerContent = memo(() => {
 								<div className="wrapper-items__wrapper-ability">
 									{
 										el?.ability.map((ability, i) => {
-											const changeColor = changeColorAbility(ability);
+											const changeColor = abilityColor(ability);
 											return (
 												<p key={ i }
 													style={ {
