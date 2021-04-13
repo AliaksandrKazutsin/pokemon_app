@@ -8,14 +8,17 @@ interface App {
 	getData: Pokemons;
 	loading: boolean;
 }
-
+interface ActionTypes {
+	type: string;
+	payload: Pokemons;
+}
 
 const initialState: App = {
 	getData: [],
 	loading: true
 };
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state: App = initialState, action: ActionTypes) => {
 	switch (action.type) {
 		case ACTION_TYPES.REQUEST_DATA:
 			return {

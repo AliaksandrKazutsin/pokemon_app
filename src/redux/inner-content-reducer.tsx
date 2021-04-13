@@ -19,7 +19,12 @@ const initialState: InnerContent = {
 	paginatedItems: AMOUNT_SCREEN_POKEMONS
 };
 
-const innerContentReducer = (state = initialState, action) => {
+interface ActionTypes {
+	type: string;
+	payload: InnerContent;
+}
+
+const innerContentReducer = (state: InnerContent = initialState, action: ActionTypes) => {
 	switch (action.type) {
 		case INNER_CONTENT_TYPES.REBUILD_DESIGN:
 			return {
