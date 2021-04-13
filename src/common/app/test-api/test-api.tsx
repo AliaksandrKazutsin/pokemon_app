@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData, hideLoader } from '../../../redux/actions';
+import { fetchData } from '../../../redux/actions';
 import { getLoader } from '../../../redux/selectors';
 import { InnerContent } from '../inner-content/inner-content';
 import { scrollToTop } from '../scroll';
@@ -13,10 +13,7 @@ export const TestApi: React.FunctionComponent = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setTimeout(() => {
-            dispatch(fetchData());
-            dispatch(hideLoader());
-        }, 1000);
+        dispatch(fetchData());
     }, [dispatch]);
 
     return (
@@ -39,4 +36,4 @@ export const TestApi: React.FunctionComponent = () => {
             }
         </>
     );
-}; 
+};

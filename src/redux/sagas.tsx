@@ -1,12 +1,19 @@
 import { call, put } from '@redux-saga/core/effects';
 import axios from 'axios';
 import { DataListElements, Pokemon, TypeName } from '../interfaces/pokemon';
+import { hideLoader, showLoader } from './actions';
 import { ACTION_TYPES } from './types';
+
+const ms: number = 1000;
+const delay = (time: number) => new Promise<number>(resolve => setTimeout(resolve, time));
 
 export function* sagaWorker() {
 	try {
+		yield put(showLoader());
 		const payload = yield call(fetchData);
 		yield put({ type: ACTION_TYPES.REQUEST_DATA, payload });
+		yield call(delay, ms);
+		yield put(hideLoader());
 	} catch (error) {
 		console.error('ERROR', error);
 	}
@@ -42,4 +49,4 @@ const fetchData = async () => {
 	} catch (error) {
 		console.error("ERROR", error);
 	}
-}; 
+};

@@ -9,6 +9,9 @@ import { INNER_CONTENT_ABILITY_COLOR, INNER_CONTENT_BUTTONS_GROUP } from '../con
 import { POKEMON_PATH_BY_ID } from '../routes';
 import './inner-content.scss';
 
+const REBUILD_DELAY: number = 2000;
+const NOTIFICATION_DELAY: number = 4000;
+const INITIAL_VALUE_POKE_SCREEN: number = 5;
 
 export const InnerContent = memo(() => {
 	const getData: Pokemons = useSelector(getPokemonData);
@@ -26,7 +29,7 @@ export const InnerContent = memo(() => {
 		setTimeout(() => {
 			dispatch(rebuildPokemonDesign());
 			window.scroll(0, 0);
-		}, 2000);
+		}, REBUILD_DELAY);
 
 	}, [dispatch]);
 
@@ -35,7 +38,7 @@ export const InnerContent = memo(() => {
 		if (loaderButton) {
 			setTimeout(() => {
 				dispatch(showNotification());
-			}, 4500);
+			}, NOTIFICATION_DELAY);
 		}
 	}, [dispatch, loaderButton]);
 
@@ -58,7 +61,7 @@ export const InnerContent = memo(() => {
 	const countSizeData = (item: Pokemon[]) => {
 		if (item) return paginatedItems;
 	};
-	const numberOfItems = paginatedItems ? countSizeData(getData) : 5;
+	const numberOfItems = paginatedItems ? countSizeData(getData) : INITIAL_VALUE_POKE_SCREEN;
 
 	return (
 		<>
