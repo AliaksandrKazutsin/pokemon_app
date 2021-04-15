@@ -1,56 +1,49 @@
 import isDarkColor from 'is-dark-color';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { COLORS, Pokemon } from '../../../interfaces/pokemon';
+import { COLORS, Pokemon, Pokemons } from '../../../interfaces/pokemon';
+import { addPaginatedItems, rebuildPokemonDesign, showButtonLoader, showNotification } from '../../../redux/actions';
+import { getButtonLoader, getNotification, getPaginatedItems, getPokemonData, getRebuildDesign } from '../../../redux/selectors';
+import { INNER_CONTENT_ABILITY_COLOR, INNER_CONTENT_BUTTONS_GROUP } from '../constants';
+import { POKEMON_PATH_BY_ID } from '../routes';
 import './inner-content.scss';
 
-const buttonNames = {
-	rebuildDesign: "Rebuild design",
-	rebuilding: "Rebuilding...",
-	showMore: "Show more"
-};
-interface DataListProps {
-	getData: Pokemon[];
-}
+const REBUILD_DELAY: number = 2000;
+const NOTIFICATION_DELAY: number = 4000;
+const INITIAL_VALUE_POKE_SCREEN: number = 5;
 
-export const InnerContent = memo(({ getData }: DataListProps) => {
+export const InnerContent = memo(() => {
+	const getData: Pokemons = useSelector(getPokemonData);
+	const rebuildDesign: boolean = useSelector(getRebuildDesign);
+	const loaderButton: boolean = useSelector(getButtonLoader);
+	const notification: boolean = useSelector(getNotification);
+	const paginatedItems: number = useSelector(getPaginatedItems);
+	const dispatch = useDispatch();
 
-	const [rebuildItems, setRebuildItems] = useState<boolean>(false);
-	const [buttonLoader, setButtonLoader] = useState<boolean>(false);
-	const [notification, setNotification] = useState<boolean>(false);
-	const [showMore, setShowMore] = useState<boolean>(false);
-	const [addCount, setAddCount] = useState<number>(5);
+	const scrollToDown = useRef<HTMLInputElement | null>(null);
 
 	const rebuildDisplayItems = useCallback(() => {
-		setButtonLoader(true);
+		dispatch(showButtonLoader());
 
 		setTimeout(() => {
-			setRebuildItems(() => !rebuildItems);
-			setButtonLoader(false);
+			dispatch(rebuildPokemonDesign());
 			window.scroll(0, 0);
-		}, 2000);
+		}, REBUILD_DELAY);
 
-	}, [rebuildItems]);
+	}, [dispatch]);
 
-
-	useEffect(() => {
-		if (buttonLoader) {
-			setTimeout(() => {
-				setNotification(true);
-			}, 2500);
-		}
-	}, [buttonLoader]);
 
 	useEffect(() => {
-		if (notification) {
+		if (loaderButton) {
 			setTimeout(() => {
-				setNotification(false);
-			}, 2000);
+				dispatch(showNotification());
+			}, NOTIFICATION_DELAY);
 		}
-	}, [notification]);
+	}, [dispatch, loaderButton]);
 
 	//replace for switch/case
-	const changeColorAbility = useCallback((color: string) => ({
+	const abilityColor = useCallback((color: string) => ({
 		"GRASS": COLORS.GREEN,
 		"POISON": COLORS.PURPLE,
 		"FIRE": COLORS.YELLOW,
@@ -60,54 +53,25 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 		"NORMAL": COLORS.LIGHT_GREEN
 	})[color], []);
 
-	/*const changeColorAbility = useCallback((color: string) => {
-		switch (color) {
-			case "GRASS":
-				return COLORS.GREEN;
-			case "POISON":
-				return COLORS.PURPLE;
-			case "FIRE":
-				return COLORS.YELLOW;
-			case "FLYING":
-				return COLORS.BRIGHT_BLUE;
-			case "WATER":
-				return COLORS.BLUE;
-			case "BUG":
-				return COLORS.LOW_YELLOW;
-			case "NORMAL":
-				return COLORS.LIGHT_GREEN;
-			default:
-				break;
-		}
-	}, []);*/
-
 	const showMorePoke = () => {
-		setAddCount(() => addCount + 5);
-		setShowMore(true);
-		window.scrollBy(0, 10000);
+		dispatch(addPaginatedItems());
+		scrollToDown.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
 	};
-
-	useEffect(() => {
-		if (addCount > 20) {
-			console.log("We have not pokemons more..");
-		}
-	}, [addCount]);
 
 	const countSizeData = (item: Pokemon[]) => {
-		if (item) {
-			return addCount;
-		}
+		if (item) return paginatedItems;
 	};
-	const numberOfItems = showMore ? countSizeData(getData) : 5;
+	const numberOfItems = paginatedItems ? countSizeData(getData) : INITIAL_VALUE_POKE_SCREEN;
 
 	return (
 		<>
+			<div ref={ scrollToDown } />
 			{ notification && <p className="wrapper-items__notification-rebuild"><i className="fa fa-check-circle-o" aria-hidden="true"></i>Design was rebuilded</p> }
-			<ul className={ rebuildItems ? 'wrapper-items__items-rebuild' : 'wrapper-items__items' } >
+			<ul className={ rebuildDesign ? 'wrapper-items__items-rebuild' : 'wrapper-items__items' } >
 				{ getData.slice(0, numberOfItems).map((el => {
 					return <li key={ el.id } className='wrapper-items__list-items'>
 						<Link to={ {
-							pathname: `/poke/${el.id}`,
+							pathname: `${POKEMON_PATH_BY_ID}`,
 							state: el
 						} } >
 							<img src={ el.image } alt="poke" className="wrapper-items__item-img" />
@@ -115,15 +79,23 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 								<p className="wrapper-items__item-name">{ el.name }</p>
 								<div className="wrapper-items__wrapper-ability">
 									{
-										el?.ability.map((ability, i) =>
-											<p key={ i }
-												style={ {
-													backgroundColor: `${changeColorAbility(ability)}`,
-													color: `${isDarkColor(changeColorAbility(ability)) === true ? 'white' : 'black'}`
-												} }
-												className="wrapper-items__item-ability">
-												{ ability }
-											</p>)
+										el?.ability.map((ability, id) => {
+											const changeColor = abilityColor(ability);
+											return (
+												<p key={ id }
+													style={ {
+														backgroundColor: `${changeColor}`,
+														color: `${isDarkColor(changeColor) ?
+															INNER_CONTENT_ABILITY_COLOR.whiteColor :
+															INNER_CONTENT_ABILITY_COLOR.blackColor}`
+													} }
+													className="wrapper-items__item-ability">
+													{ ability }
+												</p>
+											);
+										}
+
+										)
 									}
 								</div>
 							</div>
@@ -131,22 +103,17 @@ export const InnerContent = memo(({ getData }: DataListProps) => {
 					</li>;
 				})) }
 			</ul>
-			<button onClick={ rebuildDisplayItems } className="wrapper-items__button-rebuild" type="button" disabled={ buttonLoader }>
-				{ buttonLoader &&
-					<i
-						className="fa fa-refresh fa-spin"
-						style={ { marginRight: "10px", fontSize: '15px' } }
-					/>
-				}
-				{ !buttonLoader ?
-					<span>{ buttonNames.rebuildDesign }</span> :
-					<span>{ buttonNames.rebuilding }</span> }
+			<button onClick={ rebuildDisplayItems } className="wrapper-items__button-rebuild" type="button" disabled={ loaderButton }>
+				{ loaderButton && <i className="fa fa-refresh fa-spin" /> }
+				{ !loaderButton ?
+					<span>{ INNER_CONTENT_BUTTONS_GROUP.rebuildDesign }</span> :
+					<span>{ INNER_CONTENT_BUTTONS_GROUP.rebuilding }</span> }
 			</button>
 			<div className="wrapper-items__button" >
 				<button
 					onClick={ showMorePoke }
 					className="wrapper-items__button-show-more">
-					{ buttonNames.showMore }
+					{ INNER_CONTENT_BUTTONS_GROUP.showMore }
 					<i className="fa fa-caret-down" aria-hidden="true" />
 				</button>
 			</div>

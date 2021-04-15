@@ -1,17 +1,15 @@
-$displayFlex: flex;
-$justifyContentCenter: center;
 $colorBlack: #000;
 $colorWhite: #fff;
 
 .loader {
-  display: $displayFlex;
-  justify-content: $justifyContentCenter;
+  display: flex;
+  justify-content: center;
   margin-top: 20%;
 }
 
 .wrapper-items {
-  display: $displayFlex;
-  justify-content: $justifyContentCenter;
+  display: flex;
+  justify-content: center;
 }
 
 .wrapper-items__items {
@@ -28,8 +26,8 @@ $colorWhite: #fff;
 }
 
 .wrapper-items__list-items {
-  display: $displayFlex;
-  justify-content: $justifyContentCenter;
+  display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 
@@ -62,7 +60,7 @@ a:active {
 }
 
 .wrapper-items__wrapper-ability {
-  display: $displayFlex;
+  display: flex;
 
 }
 
@@ -89,8 +87,8 @@ a:active {
 }
 
 .wrapper-items__notification-rebuild {
-  display: $displayFlex;
-  justify-content: $justifyContentCenter;
+  display: flex;
+  justify-content: center;
   position: fixed;
   line-height: 2.3em;
   background-color: $colorBlack;

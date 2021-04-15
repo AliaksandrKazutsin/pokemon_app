@@ -1,4 +1,16 @@
+//ENUMS
+export enum COLORS {
+	GREEN = "#008000",
+	PURPLE = "#800080",
+	YELLOW = "#ffff00",
+	BLUE = "#0000ff",
+	BRIGHT_BLUE = "#a3fffb",
+	LOW_YELLOW = "#fff096",
+	LIGHT_GREEN = "#bfffc8"
+}
 
+
+//INTERFACES
 export interface Pokemon {
 	id: number;
 	name: string;
@@ -28,14 +40,4 @@ export interface TypeName {
 
 export interface FrontShiny {
 	front_shiny: string;
-}
-
-export enum COLORS {
-	GREEN = "#008000",
-	PURPLE = "#800080",
-	YELLOW = "#ffff00",
-	BLUE = "#0000ff",
-	BRIGHT_BLUE = "#a3fffb",
-	LOW_YELLOW = "#fff096",
-	LIGHT_GREEN = "#bfffc8"
 } 
