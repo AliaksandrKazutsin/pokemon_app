@@ -71,7 +71,7 @@ export const InnerContent = memo(() => {
 				{ getData.slice(0, numberOfItems).map((el => {
 					return <li key={ el.id } className='wrapper-items__list-items'>
 						<Link to={ {
-							pathname: `${POKEMON_PATH_BY_ID}`,
+							pathname: `${POKEMON_PATH_BY_ID}${el.name.toLowerCase()}`,
 							state: el
 						} } >
 							<img src={ el.image } alt="poke" className="wrapper-items__item-img" />

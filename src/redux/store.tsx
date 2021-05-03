@@ -14,5 +14,4 @@ const configureStore = createStore(rootReducer, compose(
 
 saga.run(sagaWorker);
 
-
 export const store = configureStore;

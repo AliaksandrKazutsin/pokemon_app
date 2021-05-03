@@ -40,4 +40,10 @@ export interface TypeName {
 
 export interface FrontShiny {
 	front_shiny: string;
-} 
+}
+
+export interface UserData {
+	userPassword: string;
+	userName: string;
+}
+

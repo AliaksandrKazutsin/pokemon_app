@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
+import { PAGE_PATH } from '../app';
 import { INNER_CONTENT_BUTTON_BACK_TO_HOME_PAGE } from '../constants';
 import './inner-data-pokemon.scss';
 
@@ -12,7 +13,7 @@ export const InnerDataPokemon = memo(({ data }: DataElements) => {
 	const history = useHistory();
 
 	const leaveCurrentPage = () => {
-		return history.push('/');
+		return history.push(`${PAGE_PATH.DEFAULT}`);
 	};
 
 	return (

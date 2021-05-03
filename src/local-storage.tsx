@@ -3,7 +3,7 @@ export function loadState<T = object>(): T | undefined {
 		return undefined;
 	}
 	try {
-		const serializedState = localStorage.getItem('state');
+		const serializedState = localStorage.getItem('userData');
 		if (serializedState === null) {
 			return undefined;
 		}
@@ -19,7 +19,7 @@ export function saveState<T = object>(state: T): boolean {
 	}
 	try {
 		const serializedState = JSON.stringify(state);
-		localStorage.setItem('state', serializedState);
+		localStorage.setItem('userData', serializedState);
 		return true;
 	} catch (err) {
 		console.error('ERROR', err);
