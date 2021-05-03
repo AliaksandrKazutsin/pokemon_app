@@ -1,1 +1,1 @@
-export const POKEMON_PATH_BY_ID = `/poke/el.id`;
+export const POKEMON_PATH_BY_ID = `pokemons/`;

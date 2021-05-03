@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../../../redux/actions';
 import { getLoader } from '../../../redux/selectors';
@@ -7,7 +7,8 @@ import { scrollToTop } from '../scroll';
 import { Spinner } from '../spinner/spinner';
 import './test-api.scss';
 
-export const TestApi: React.FunctionComponent = () => {
+
+export const TestApi: React.FunctionComponent = memo(() => {
 
     const loading: boolean = useSelector(getLoader);
     const dispatch = useDispatch();
@@ -36,4 +37,4 @@ export const TestApi: React.FunctionComponent = () => {
             }
         </>
     );
-};
+});

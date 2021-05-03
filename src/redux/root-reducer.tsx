@@ -4,5 +4,5 @@ import innerContentReducer from '../redux/inner-content-reducer';
 
 export const rootReducer = combineReducers({
 	app: appReducer,
-	innerContent: innerContentReducer
-});  
+	innerContent: innerContentReducer,
+});

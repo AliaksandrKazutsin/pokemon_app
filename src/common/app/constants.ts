@@ -12,4 +12,9 @@ export const INNER_CONTENT_ABILITY_COLOR = {
 export const INNER_CONTENT_BUTTON_BACK_TO_HOME_PAGE = {
 	buttonBack: "Go Back",
 	pokeName: "I'm"
-} as const; 
+} as const;
+
+export const LOGIN_PAGE_VALIDATION_DATA = {
+	loginPageCaption: "Welcome, please sign in before start",
+	signIn: "Sign in"
+} as const;
